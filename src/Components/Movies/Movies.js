@@ -7,13 +7,17 @@ export default function () {
 
     const [movies, setMovies] = useState([]);
     const [series, setSeries] = useState([]);
-    const {state, setState} = useContext(AppContext);
+    const {state, setState, isLoading, setIsLoading} = useContext(AppContext);
 
     useEffect(() => {
         setSeries(state);
         const promises = series.map(s => {
+            setIsLoading(true);
             return fetch(`http://www.omdbapi.com/?apikey=${API_KEY}&s=${s}`)
-            .then(res => res.json())
+            .then(res => {
+                setIsLoading(false);
+                return res.json()
+            })
         });
         Promise.all(promises).then(movie => {
             setMovies(movie.map(currentMovie => currentMovie.Search));

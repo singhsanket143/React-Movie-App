@@ -5,26 +5,29 @@ import * as React from 'react';
 import Alert from '@mui/material/Alert';
 import Movies from './Components/Movies/Movies';
 import Movie from './Components/Movies/Movie';
+import Loader from './Components/Loader/Loader';
 import { useState, useEffect } from 'react';
 import { AppContext } from './Context/SearchContext';
 
 
 function App() {
   const [movies, setMovies] = useState(['avengers']);
+  const [isLoading, setIsLoading] = useState(false);
 
-  // useEffect(() => {
-  //   setTimeout(() => {
-  //     setMovies(['superman'])
-  //   }, 5000);
-  // }, [])
+  useEffect(() => {
+    //console.log("reloaded")
+  }, [])
 
   return (
     <AppContext.Provider value = {{
       state: movies,
-      setState: setMovies
+      setState: setMovies,
+      isLoading: isLoading,
+      setIsLoading: setIsLoading
   }}> 
     <div className="App">
       <Header/>
+      {isLoading && <Loader />}
       <Movies/>
     </div>
   
